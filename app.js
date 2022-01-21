@@ -9,7 +9,7 @@ app.get('/', (req, res, next) => {
 });
 
 // {a} stands for auth
-app.get('/a', AuthRouter);
+app.use('/a', AuthRouter);
 
 // Server
 app.listen(3000, () => {
