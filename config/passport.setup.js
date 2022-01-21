@@ -1,14 +1,14 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const {
-    google: { clientId, clientSecret },
+    google: { clientId: clientID, clientSecret },
 } = require('./keys');
 
 passport.use(
     new GoogleStrategy(
         {
             callbackURL: '/auth/google/redirect',
-            clientId,
+            clientID,
             clientSecret,
         },
         () => {}
