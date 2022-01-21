@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const AuthRouter = require('./routes/auth.routes');
 
+// Routes
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res, next) => {
@@ -9,7 +10,7 @@ app.get('/', (req, res, next) => {
 });
 
 // {a} stands for auth
-app.use('/a', AuthRouter);
+app.use('/auth', AuthRouter);
 
 // Server
 app.listen(3000, () => {
