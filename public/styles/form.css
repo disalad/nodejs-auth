@@ -1,0 +1,14 @@
+.google-img {
+    width: 1rem;
+    float: left;
+    margin: 2px 15px 0 5px;
+    min-width: 15px;
+}
+
+.form-container {
+    max-width: 25em;
+}
+
+.form-jumbroton {
+    margin-top: 2.5rem !important;
+}

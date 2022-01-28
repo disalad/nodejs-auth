@@ -9,6 +9,7 @@ const {
 const passportSetup = require('./config/passport.setup');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const path = require('path');
 
 // DB connect
 mongoose.connect(dbUri, () => {
@@ -22,7 +23,6 @@ app.use(
         keys: [cookieKey],
     })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -31,8 +31,10 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.get('/', (req, res, next) => {
-    res.render('home');
+    res.render('home', { user: req.user });
 });
+
+app.use('/css', express.static(path.join(__dirname, 'public/styles')));
 
 // {a} stands for auth
 app.use('/auth', AuthRouter);

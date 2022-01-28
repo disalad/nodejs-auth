@@ -7,16 +7,16 @@ router.get('/', notAuthed, (req, res) => {
 });
 
 router.get('/login', notAuthed, (req, res) => {
-    res.render('login');
+    res.render('login', { user: req.user });
 });
 
 router.get('/signup', notAuthed, (req, res) => {
-    res.render('signup');
+    res.render('signup', { user: req.user });
 });
 
 router.get('/logout', authed, (req, res) => {
     req.logout();
-    res.redirect('/');
+    res.redirect('/auth/login');
 });
 
 router.get(

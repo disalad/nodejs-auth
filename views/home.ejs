@@ -2,7 +2,7 @@
 <html lang="en">
     <%- include('partials/header.ejs', {title: "Home page"}) %>
     <body>
-        <%- include("partials/nav.ejs") %>
+        <%- include("partials/nav.ejs"), {user: user} %>
         <div class="container">Home Page</div>
     </body>
 </html>
