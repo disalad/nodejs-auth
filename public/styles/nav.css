@@ -6,3 +6,7 @@
 .login-btn:hover {
     color: #6c757d;
 }
+
+.login-btn:focus {
+    box-shadow: none !important;
+}
