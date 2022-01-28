@@ -35,6 +35,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.use('/css', express.static(path.join(__dirname, 'public/styles')));
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
 
 // {a} stands for auth
 app.use('/auth', AuthRouter);

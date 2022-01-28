@@ -12,3 +12,7 @@
 .form-jumbroton {
     margin-top: 2.5rem !important;
 }
+
+.hidden {
+    display: none;
+}

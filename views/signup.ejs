@@ -7,6 +7,7 @@
         <div class="jumbotron d-flex align-items-center form-jumbroton">
             <div class="container form-container">
                 <form>
+                    <!-- Strategy Buttons -->
                     <div class="text-center social-btn">
                         <a href="/auth/google" class="btn btn-danger btn-block d-flex"
                             ><img
@@ -18,6 +19,12 @@
                         </a>
                     </div>
                     <hr />
+                    <!-- Alert Box -->
+                    <div
+                        class="alert alert-danger hidden alert-dismissible fade show"
+                        role="alert"
+                    ></div>
+                    <!-- Input Fields -->
                     <div class="form-group mb-3">
                         <label for="name">Username</label>
                         <input
@@ -57,5 +64,6 @@
                 </form>
             </div>
         </div>
+        <script src="/js/validateForm.js"></script>
     </body>
 </html>
