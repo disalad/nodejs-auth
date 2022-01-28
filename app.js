@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const AuthRouter = require('./routes/auth.routes');
+const ProfileRouter = require('./routes/profile.routes');
 const mongoose = require('mongoose');
 const {
     mongodb: { dbUri },
@@ -39,6 +40,7 @@ app.use('/js', express.static(path.join(__dirname, 'public/js')));
 
 // {a} stands for auth
 app.use('/auth', AuthRouter);
+app.use('/profile', ProfileRouter);
 
 // Server
 app.listen(3000, () => {
