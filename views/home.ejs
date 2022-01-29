@@ -2,7 +2,12 @@
 <html lang="en">
     <%- include('partials/header.ejs', {title: "Home page"}) %>
     <body>
-        <%- include("partials/nav.ejs"), {user: user} %>
-        <div class="container">Home Page</div>
+        <%- include("partials/nav.ejs") %>
+        <div class="container">
+            <h1 class="display-6">
+                Welcome back to Home,
+                <a href="/profile" style="text-decoration: none"><%= user.username %></a>
+            </h1>
+        </div>
     </body>
 </html>
