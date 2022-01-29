@@ -10,3 +10,8 @@
 .login-btn:focus {
     box-shadow: none !important;
 }
+
+.profile-pic {
+    width: 2rem;
+    border-radius: 50%;
+}
