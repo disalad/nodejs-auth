@@ -8,8 +8,7 @@ form.addEventListener('submit', function (ev) {
     ev.preventDefault();
     const email = emailInput.value;
     const password = passwordInput.value;
-    const username = usernameInput.value;
-    const validUsername = usernameInput ? validateUsername(username) : true;
+    const validUsername = usernameInput ? validateUsername(usernameInput.value) : false;
     if (validateEmail(email)) {
         alert.textContent = 'Please enter a valid email';
         alert.classList.remove('hidden');
