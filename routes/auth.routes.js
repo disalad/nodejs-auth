@@ -11,6 +11,16 @@ router.get('/login', notAuthed, (req, res) => {
     res.render('login', { user: req.user });
 });
 
+router.post(
+    '/login',
+    notAuthed,
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true,
+    })
+);
+
 router.get('/signup', notAuthed, (req, res) => {
     res.render('signup', { user: req.user });
 });
