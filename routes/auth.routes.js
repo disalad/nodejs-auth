@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 const { notAuthed, authed } = require('../middleware/checkAuth');
+const AuthController = require('../controllers/AuthController');
 
 router.get('/', notAuthed, (req, res) => {
     res.redirect('/auth/login');
@@ -29,6 +30,10 @@ router.get(
         ],
     })
 );
+
+router.get('/delete', authed, AuthController.delete_acc, (req, res) => {
+    res.redirect('/auth/login', { user: req.user });
+});
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
     res.redirect('/');
