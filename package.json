@@ -1,7 +1,7 @@
 {
   "name": "passport-auth",
   "version": "1.0.0",
-  "description": "",
+  "description": "Authentication with node.js and passport.js",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -18,11 +18,13 @@
   },
   "homepage": "https://github.com/disaladamsas/node-passport-auth#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cookie-session": "^2.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "mongoose": "^6.1.7",
     "passport": "^0.5.2",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0"
   }
 }

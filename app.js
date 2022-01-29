@@ -18,6 +18,7 @@ mongoose.connect(dbUri, () => {
 });
 
 // Middleware
+app.use(express.urlencoded({ extended: false }));
 app.use(
     cookieSession({
         maxAge: 24 * 60 * 60 * 1000,
