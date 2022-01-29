@@ -25,9 +25,16 @@ router.get('/signup', notAuthed, (req, res) => {
     res.render('signup', { user: req.user });
 });
 
-router.post('/signup', notAuthed, AuthController.register_user, (req, res) => {
-    res.redirect('/auth/login');
-});
+router.post(
+    '/signup',
+    notAuthed,
+    AuthController.register_user,
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true,
+    })
+);
 
 router.get('/logout', authed, (req, res) => {
     req.logout();
