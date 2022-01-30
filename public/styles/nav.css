@@ -1,3 +1,7 @@
+.navbar {
+    max-height: 3.5rem;
+}
+
 .login-btn {
     background-color: transparent;
     padding: 0.375rem 0.75rem;
