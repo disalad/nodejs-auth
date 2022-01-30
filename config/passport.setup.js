@@ -58,14 +58,14 @@ passport.use(
             const user = await User.findOne({ email: email });
             if (!user) {
                 console.log("User doesn't exist", user);
-                return done("User doesn't exist");
+                return done(null, false, { message: 'Email or Password is incorrect' });
             } else {
             }
             if (await bcrypt.compare(password, user.password)) {
                 console.log('Password Correct');
                 return done(null, user);
             } else {
-                return done(null, false);
+                return done(null, false, { message: 'Email or Password is incorrect' });
             }
         } catch (err) {
             console.log('Err: ', err.message);

@@ -20,6 +20,11 @@
                     </div>
                     <hr />
                     <!-- Alert Box -->
+                    <% if (messages.error) { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <%= messages.error %>
+                    </div>
+                    <% } %>
                     <div
                         class="alert alert-danger hidden alert-dismissible fade show"
                         role="alert"

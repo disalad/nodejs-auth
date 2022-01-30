@@ -11,6 +11,7 @@ const passportSetup = require('./config/passport.setup');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const path = require('path');
+const flash = require('express-flash');
 
 // DB connect
 mongoose.connect(dbUri, () => {
@@ -27,6 +28,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 // Set up view engine
 app.set('view engine', 'ejs');

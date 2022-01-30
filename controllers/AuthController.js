@@ -19,7 +19,7 @@ exports.register_user = async (req, res, next) => {
         const hash = await bcrypt.hash(password, 10);
         const prevUser = await User.findOne({ email: email });
         if (prevUser) {
-            throw new Error('User already exists');
+            throw new Error('User already exists, Please log in');
         } else {
             await User.create({
                 email,
@@ -30,6 +30,7 @@ exports.register_user = async (req, res, next) => {
         }
     } catch (err) {
         console.log(err.message);
+        req.flash('error', err.message);
         res.redirect('/auth/signup');
     }
 };
