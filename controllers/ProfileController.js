@@ -3,7 +3,7 @@ const User = require('../models/User');
 const path = require('path');
 
 exports.update_profile = async (req, res) => {
-    const uploadFile = (req) => {
+    const uploadFile = req => {
         return new Promise((resolve, reject) => {
             const id = req.user.id.toString();
             const file = req.files.file;
@@ -31,7 +31,7 @@ exports.update_profile = async (req, res) => {
         const updateObj = {
             ...(fileUrl && { imgUrl: fileUrl }),
             ...(req.body.name && { username: req.body.name }),
-            ...(req.body.about.length <= 20 && req.body.about && { bio: req.body.about }),
+            ...(req.body.about.length <= 40 && { bio: req.body.about }),
         };
         await User.findOneAndUpdate({ email: email }, updateObj, { upsert: true });
         res.redirect('/profile');
