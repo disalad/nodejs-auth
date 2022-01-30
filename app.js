@@ -12,6 +12,7 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const path = require('path');
 const flash = require('express-flash');
+const fileUpload = require('express-fileupload');
 
 // DB connect
 mongoose.connect(dbUri, () => {
@@ -28,6 +29,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(fileUpload());
 app.use(flash());
 
 // Set up view engine
@@ -38,8 +40,10 @@ app.get('/', (req, res, next) => {
     res.render('home', { user: req.user });
 });
 
+// Static Files
 app.use('/css', express.static(path.join(__dirname, 'public/styles')));
 app.use('/js', express.static(path.join(__dirname, 'public/js')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // {a} stands for auth
 app.use('/auth', AuthRouter);

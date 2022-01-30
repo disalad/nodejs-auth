@@ -21,6 +21,9 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
     },
+    bio: {
+        type: String,
+    },
 });
 
 const User = mongoose.model('User', UserSchema);
