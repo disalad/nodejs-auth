@@ -47,7 +47,9 @@ passport.use(
                     console.log('Created new user: ', newUser);
                     done(null, newUser);
                 }
-            } catch (err) {}
+            } catch (err) {
+                done(err.message);
+            }
         }
     )
 );
@@ -57,9 +59,8 @@ passport.use(
         try {
             const user = await User.findOne({ email: email });
             if (!user) {
-                console.log("User doesn't exist", user);
+                console.log('User doesn\'t exist', user);
                 return done(null, false, { message: 'Email or Password is incorrect' });
-            } else {
             }
             if (await bcrypt.compare(password, user.password)) {
                 console.log('Password Correct');

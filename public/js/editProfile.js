@@ -4,7 +4,7 @@ const alert = form.querySelector('.alert');
 const profileImg = form.querySelector('.profile-dp');
 const fileInput = document.getElementById('file-input');
 
-fileInput.addEventListener('change', function (ev) {
+fileInput.addEventListener('change', function () {
     const [file] = fileInput.files;
     if (file) {
         profileImg.src = URL.createObjectURL(file);

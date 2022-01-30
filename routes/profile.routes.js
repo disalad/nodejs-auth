@@ -1,12 +1,12 @@
 const router = require('express').Router();
-const { notAuthed, authed } = require('../middleware/checkAuth');
+const { authed } = require('../middleware/checkAuth');
 const ProfileController = require('../controllers/ProfileController');
 
 router.get('/', authed, (req, res) => {
     res.render('profile', { user: req.user });
 });
 
-router.get('/edit', authed, (req, res, next) => {
+router.get('/edit', authed, (req, res) => {
     res.render('editProfile', { user: req.user });
 });
 

@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
 const User = require('../models/User');
 const path = require('path');
 
-exports.update_profile = async (req, res, next) => {
-    const uploadFile = (req, res) => {
+exports.update_profile = async (req, res) => {
+    const uploadFile = (req) => {
         return new Promise((resolve, reject) => {
             const id = req.user.id.toString();
             const file = req.files.file;
@@ -25,7 +26,7 @@ exports.update_profile = async (req, res, next) => {
         const email = req.user.email;
         let fileUrl;
         if (req.files) {
-            fileUrl = await uploadFile(req, res);
+            fileUrl = await uploadFile(req);
         }
         const updateObj = {
             ...(fileUrl && { imgUrl: fileUrl }),

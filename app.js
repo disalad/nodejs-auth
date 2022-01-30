@@ -7,12 +7,12 @@ const {
     mongodb: { dbUri },
     session: { cookieKey },
 } = require('./config/keys');
-const passportSetup = require('./config/passport.setup');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const path = require('path');
 const flash = require('express-flash');
 const fileUpload = require('express-fileupload');
+require('./config/passport.setup');
 
 // DB connect
 mongoose.connect(dbUri, () => {
@@ -36,13 +36,16 @@ app.use(flash());
 app.set('view engine', 'ejs');
 
 // Routes
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
     res.render('home', { user: req.user });
 });
 
 // Static Files
+// eslint-disable-next-line no-undef
 app.use('/css', express.static(path.join(__dirname, 'public/styles')));
+// eslint-disable-next-line no-undef
 app.use('/js', express.static(path.join(__dirname, 'public/js')));
+// eslint-disable-next-line no-undef
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // {a} stands for auth
