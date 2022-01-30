@@ -1,5 +1,10 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
 
 exports.delete_acc = async (req, res, next) => {
     try {
@@ -13,8 +18,8 @@ exports.delete_acc = async (req, res, next) => {
 
 exports.register_user = async (req, res, next) => {
     try {
-        const username = req.body.name;
-        const email = req.body.email;
+        const username = DOMPurify.sanitize(req.body.name);
+        const email = DOMPurify.sanitize(req.body.email);
         const password = req.body.password;
         const hash = await bcrypt.hash(password, 10);
         const prevUser = await User.findOne({ email: email });

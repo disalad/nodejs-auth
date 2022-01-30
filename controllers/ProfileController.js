@@ -1,13 +1,18 @@
 /* eslint-disable no-undef */
 const User = require('../models/User');
 const path = require('path');
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
 
 exports.update_profile = async (req, res) => {
     const uploadFile = req => {
         return new Promise((resolve, reject) => {
             const id = req.user.id.toString();
             const file = req.files.file;
-            const fileName = file.name;
+            const fileName = DOMPurify.sanitize(file.name);
             const ext = path.extname(fileName || '').split('.');
             const ex = ext[ext.length - 1];
             const pathName = path.join(__dirname + `../../uploads/${id}.${ex}`);
@@ -30,8 +35,8 @@ exports.update_profile = async (req, res) => {
         }
         const updateObj = {
             ...(fileUrl && { imgUrl: fileUrl }),
-            ...(req.body.name && { username: req.body.name }),
-            ...(req.body.about.length <= 40 && { bio: req.body.about }),
+            ...(req.body.name && { username: DOMPurify.sanitize(req.body.name) }),
+            ...(req.body.about.length <= 40 && { bio: DOMPurify.sanitize(req.body.about) }),
         };
         await User.findOneAndUpdate({ email: email }, updateObj, { upsert: true });
         res.redirect('/profile');
