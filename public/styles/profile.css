@@ -1,3 +1,26 @@
 .card {
     min-width: 20rem;
 }
+
+.image-upload input {
+    display: none;
+}
+
+.image-upload label {
+    width: 100%;
+}
+
+.image-upload img {
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+form {
+    text-align: left !important;
+    padding: 0 1.5rem;
+}
+
+.hidden {
+    display: none !important;
+}
