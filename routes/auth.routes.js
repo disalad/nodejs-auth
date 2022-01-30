@@ -16,7 +16,7 @@ router.post(
     notAuthed,
     passport.authenticate('local', {
         successRedirect: '/',
-        failureRedirect: '/login',
+        failureRedirect: '/auth/login',
         failureFlash: true,
     })
 );
@@ -31,7 +31,7 @@ router.post(
     AuthController.register_user,
     passport.authenticate('local', {
         successRedirect: '/',
-        failureRedirect: '/login',
+        failureRedirect: '/auth/signup',
         failureFlash: true,
     })
 );
