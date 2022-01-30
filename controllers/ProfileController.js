@@ -8,13 +8,15 @@ exports.update_profile = async (req, res, next) => {
                 const id = req.user.id.toString();
                 const file = req.files.file;
                 const fileName = file.name;
-                const pathName = path.join(__dirname + `../../uploads/${id}${fileName}`);
+                const ext = path.extname(fileName || '').split('.');
+                const ex = ext[ext.length - 1];
+                const pathName = path.join(__dirname + `../../uploads/${id}.${ex}`);
                 file.mv(pathName, err => {
                     if (err) {
                         console.log(err.message);
                         reject(err);
                     } else {
-                        resolve(`/uploads/${id}${fileName}`);
+                        resolve(`/uploads/${id}.${ex}`);
                     }
                 });
             }
