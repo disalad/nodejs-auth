@@ -23,3 +23,9 @@ form.addEventListener('submit', function (ev) {
         alert.classList.remove('hidden');
     }
 });
+
+document.body.addEventListener('keydown', function (e) {
+    if (e.keyCode == 13 && (e.metaKey || e.ctrlKey)) {
+        form.submit();
+    }
+});

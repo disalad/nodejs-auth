@@ -25,6 +25,12 @@ form.addEventListener('submit', function (ev) {
     }
 });
 
+document.body.addEventListener('keydown', function (e) {
+    if (e.keyCode == 13 && (e.metaKey || e.ctrlKey)) {
+        form.submit();
+    }
+});
+
 const validateEmail = email => {
     const emailRegex =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
