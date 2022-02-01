@@ -10,7 +10,7 @@ const DOMPurify = createDOMPurify(window);
 exports.update_profile = async (req, res) => {
     const uploadFile = req => {
         return new Promise((resolve, reject) => {
-            if (req.files.file.mimetype.includes('image')) {
+            if (req.files.file.mimetype.includes('image') && req.files.file.size <= 204800) {
                 const id = req.user.id.toString();
                 const file = req.files.file;
                 const fileName = DOMPurify.sanitize(file.name);
