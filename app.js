@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const AuthRouter = require('./routes/auth.routes');
 const ProfileRouter = require('./routes/profile.routes');
+const VerifyRouter = require('./routes/verify.routes');
 const mongoose = require('mongoose');
 const {
     mongodb: { dbUri },
@@ -25,7 +26,7 @@ app.use(
     cookieSession({
         maxAge: 24 * 60 * 60 * 1000,
         keys: [cookieKey],
-    })
+    }),
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -35,11 +36,6 @@ app.use(flash());
 // Set up view engine
 app.set('view engine', 'ejs');
 
-// Routes
-app.get('/', (req, res) => {
-    res.render('home', { user: req.user });
-});
-
 // Static Files
 // eslint-disable-next-line no-undef
 app.use('/css', express.static(path.join(__dirname, 'public/styles')));
@@ -48,9 +44,14 @@ app.use('/js', express.static(path.join(__dirname, 'public/js')));
 // eslint-disable-next-line no-undef
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// {a} stands for auth
+// Routes
+app.get('/', (req, res) => {
+    res.render('home', { user: req.user });
+});
+
 app.use('/auth', AuthRouter);
 app.use('/profile', ProfileRouter);
+app.use('/verify', VerifyRouter);
 
 // Server
 app.listen(3000, () => {
