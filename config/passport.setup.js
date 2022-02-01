@@ -1,11 +1,9 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const LocalStrategy = require('passport-local').Strategy;
-const {
-    google: { clientId: clientID, clientSecret },
-} = require('./keys');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -29,8 +27,8 @@ passport.use(
     new GoogleStrategy(
         {
             callbackURL: '/auth/google/redirect',
-            clientID,
-            clientSecret,
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
