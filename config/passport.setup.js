@@ -16,8 +16,12 @@ passport.deserializeUser((id, done) => {
     console.log('Deserializing user: ', id);
     User.findById(id)
         .then(user => {
-            console.log('Deserialized user: ', user.username);
-            done(null, user);
+            if (user) {
+                console.log('Deserialized user: ', user.username);
+                done(null, user);
+            } else {
+                done(null, false);
+            }
         })
         .catch(err => {
             console.log('Error: ', err.message);
@@ -50,8 +54,8 @@ passport.use(
             } catch (err) {
                 done(err.message);
             }
-        }
-    )
+        },
+    ),
 );
 
 passport.use(
@@ -59,7 +63,7 @@ passport.use(
         try {
             const user = await User.findOne({ email: email });
             if (!user) {
-                console.log('User doesn\'t exist', user);
+                console.log("User doesn't exist", user);
                 return done(null, false, { message: 'Email or Password is incorrect' });
             }
             if (await bcrypt.compare(password, user.password)) {
@@ -72,5 +76,5 @@ passport.use(
             console.log('Err: ', err.message);
             done(err.message);
         }
-    })
+    }),
 );
