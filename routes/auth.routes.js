@@ -18,7 +18,7 @@ router.post(
         successRedirect: '/',
         failureRedirect: '/auth/login',
         failureFlash: true,
-    })
+    }),
 );
 
 router.get('/signup', notAuthed, (req, res) => {
@@ -30,10 +30,10 @@ router.post(
     notAuthed,
     AuthController.register_user,
     passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/verify',
         failureRedirect: '/auth/signup',
         failureFlash: true,
-    })
+    }),
 );
 
 router.get('/logout', authed, (req, res) => {
@@ -49,7 +49,7 @@ router.get(
             'https://www.googleapis.com/auth/userinfo.profile',
             'https://www.googleapis.com/auth/userinfo.email',
         ],
-    })
+    }),
 );
 
 router.get('/delete', authed, AuthController.delete_acc, (req, res) => {
