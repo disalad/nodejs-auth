@@ -39,7 +39,8 @@ exports.update_profile = async (req, res) => {
         const updateObj = {
             ...(fileUrl && { imgUrl: fileUrl }),
             ...(req.body.name && { username: DOMPurify.sanitize(req.body.name) }),
-            ...(req.body.about.length <= 40 && { bio: DOMPurify.sanitize(req.body.about) }),
+            ...(req.body.about.length <= 40 &&
+                req.body.about && { bio: DOMPurify.sanitize(req.body.about) }),
         };
         await User.findOneAndUpdate({ email: email }, updateObj, { upsert: true });
         res.redirect('/profile');
