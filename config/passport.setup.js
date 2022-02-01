@@ -8,23 +8,20 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 passport.serializeUser((user, done) => {
-    console.log('Serializing user: ', user);
     done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-    console.log('Deserializing user: ', id);
     User.findById(id)
         .then(user => {
             if (user) {
-                console.log('Deserialized user: ', user.username);
                 done(null, user);
             } else {
                 done(null, false);
             }
         })
         .catch(err => {
-            console.log('Error: ', err.message);
+            done(err.message);
         });
 });
 
@@ -39,7 +36,6 @@ passport.use(
             try {
                 const result = await User.findOne({ googleId: profile.id });
                 if (result) {
-                    console.log('user is: ', result);
                     done(null, result);
                 } else {
                     const newUser = await User.create({
@@ -48,7 +44,6 @@ passport.use(
                         imgUrl: profile.photos[0].value,
                         googleId: profile.id,
                     });
-                    console.log('Created new user: ', newUser);
                     done(null, newUser);
                 }
             } catch (err) {
@@ -63,17 +58,14 @@ passport.use(
         try {
             const user = await User.findOne({ email: email });
             if (!user) {
-                console.log("User doesn't exist", user);
                 return done(null, false, { message: 'Email or Password is incorrect' });
             }
             if (await bcrypt.compare(password, user.password)) {
-                console.log('Password Correct');
                 return done(null, user);
             } else {
                 return done(null, false, { message: 'Email or Password is incorrect' });
             }
         } catch (err) {
-            console.log('Err: ', err.message);
             done(err.message);
         }
     }),

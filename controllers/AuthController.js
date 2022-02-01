@@ -13,9 +13,7 @@ exports.delete_acc = async (req, res, next) => {
         await User.findOneAndRemove({ email: req.user.email });
         req.logout();
         next();
-    } catch (err) {
-        console.log('Error: ', err.message);
-    }
+    } catch (err) {}
 };
 
 exports.register_user = async (req, res, next) => {
@@ -41,7 +39,6 @@ exports.register_user = async (req, res, next) => {
             next();
         }
     } catch (err) {
-        console.log(err.message);
         req.flash('error', err.message);
         res.redirect('/auth/signup');
     }

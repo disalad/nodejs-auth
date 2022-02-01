@@ -13,7 +13,6 @@ fileInput.addEventListener('change', function () {
 
 form.addEventListener('submit', function (ev) {
     ev.preventDefault();
-    console.log('TEST');
     if (usernameInput.value) {
         alert.textContent = '';
         alert.classList.add('hidden');

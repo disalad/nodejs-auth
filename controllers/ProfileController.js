@@ -18,7 +18,6 @@ exports.update_profile = async (req, res) => {
             const pathName = path.join(__dirname + `../../uploads/${id}.${ex}`);
             file.mv(pathName, err => {
                 if (err) {
-                    console.log(err.message);
                     reject(err);
                 } else {
                     resolve(`/uploads/${id}.${ex}`);
@@ -41,7 +40,6 @@ exports.update_profile = async (req, res) => {
         await User.findOneAndUpdate({ email: email }, updateObj, { upsert: true });
         res.redirect('/profile');
     } catch (err) {
-        console.log('ERRORRR: ', err.message);
         res.send(err);
     }
 };
