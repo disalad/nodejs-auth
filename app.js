@@ -9,6 +9,7 @@ const passport = require('passport');
 const path = require('path');
 const flash = require('express-flash');
 const fileUpload = require('express-fileupload');
+const minifyHTML = require('express-minify-html');
 const { anyAuthVerified } = require('./middleware/checkAuth');
 require('./config/passport.setup');
 require('dotenv').config();
@@ -30,6 +31,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(fileUpload());
 app.use(flash());
+app.use(
+    minifyHTML({
+        override: true,
+        exception_url: false,
+        htmlMinifier: {
+            removeComments: true,
+            collapseWhitespace: true,
+            collapseBooleanAttributes: true,
+            removeAttributeQuotes: true,
+            removeEmptyAttributes: true,
+            minifyJS: true,
+        },
+    }),
+);
 
 // Set up view engine
 app.set('view engine', 'ejs');

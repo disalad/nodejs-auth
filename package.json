@@ -26,6 +26,7 @@
     "express": "^4.17.2",
     "express-fileupload": "^1.2.1",
     "express-flash": "0.0.2",
+    "express-minify-html": "^0.12.0",
     "jsdom": "^19.0.0",
     "mongoose": "^6.1.7",
     "nodemailer": "^6.7.2",
