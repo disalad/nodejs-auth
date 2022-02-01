@@ -10,19 +10,23 @@ const DOMPurify = createDOMPurify(window);
 exports.update_profile = async (req, res) => {
     const uploadFile = req => {
         return new Promise((resolve, reject) => {
-            const id = req.user.id.toString();
-            const file = req.files.file;
-            const fileName = DOMPurify.sanitize(file.name);
-            const ext = path.extname(fileName || '').split('.');
-            const ex = ext[ext.length - 1];
-            const pathName = path.join(__dirname + `../../uploads/${id}.${ex}`);
-            file.mv(pathName, err => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(`/uploads/${id}.${ex}`);
-                }
-            });
+            if (req.files.file.mimetype.includes('image')) {
+                const id = req.user.id.toString();
+                const file = req.files.file;
+                const fileName = DOMPurify.sanitize(file.name);
+                const ext = path.extname(fileName || '').split('.');
+                const ex = ext[ext.length - 1];
+                const pathName = path.join(__dirname + `../../uploads/${id}.${ex}`);
+                file.mv(pathName, err => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(`/uploads/${id}.${ex}`);
+                    }
+                });
+            } else {
+                resolve(null);
+            }
         });
     };
 
