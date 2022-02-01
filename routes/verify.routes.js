@@ -4,6 +4,6 @@ const { authed, notVerified } = require('../middleware/checkAuth');
 
 router.get('/', authed, notVerified, VeifyController.verify_page);
 
-router.get('/:id', authed, notVerified, VeifyController.verify_user);
+router.get('/:token', authed, notVerified, VeifyController.verify_user);
 
 module.exports = router;
