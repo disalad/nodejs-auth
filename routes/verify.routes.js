@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const VeifyController = require('../controllers/VerifyController');
-const { authed } = require('../middleware/checkAuth');
+const { authed, notVerified } = require('../middleware/checkAuth');
 
-router.get('/', authed, VeifyController.verify_page);
+router.get('/', authed, notVerified, VeifyController.verify_page);
 
-router.get('/:id', authed, VeifyController.verify_user);
+router.get('/:id', authed, notVerified, VeifyController.verify_user);
 
 module.exports = router;

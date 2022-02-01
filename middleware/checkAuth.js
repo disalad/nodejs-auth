@@ -13,3 +13,19 @@ exports.notAuthed = (req, res, next) => {
         next();
     }
 };
+
+exports.verified = (req, res, next) => {
+    if (req.user.verified) {
+        next();
+    } else {
+        res.redirect('/verify');
+    }
+};
+
+exports.notVerified = (req, res, next) => {
+    if (!req.user.verified) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+};
