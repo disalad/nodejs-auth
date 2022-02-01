@@ -8,7 +8,7 @@ exports.authed = (req, res, next) => {
 
 exports.notAuthed = (req, res, next) => {
     if (req.isAuthenticated()) {
-        res.redirect('/auth/login');
+        res.redirect('/');
     } else {
         next();
     }
