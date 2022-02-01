@@ -12,8 +12,7 @@ const UserSchema = new mongoose.Schema({
     },
     imgUrl: {
         type: String,
-        default:
-            'https://res.cloudinary.com/df1unjmwz/image/upload/v1643474537/610-6104451_image-placeholder-png-user-profile-placeholder-image-png-removebg-preview_st4hdf.png',
+        default: '/uploads/default.png',
     },
     googleId: {
         type: String,
