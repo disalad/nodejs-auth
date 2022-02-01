@@ -24,6 +24,12 @@ const UserSchema = new mongoose.Schema({
     bio: {
         type: String,
     },
+    verified: {
+        type: Boolean,
+    },
+    verificationToken: {
+        type: String,
+    },
 });
 
 const User = mongoose.model('User', UserSchema);
