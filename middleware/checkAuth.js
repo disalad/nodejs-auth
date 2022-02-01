@@ -31,7 +31,7 @@ exports.notVerified = (req, res, next) => {
 };
 
 exports.anyAuthVerified = (req, res, next) => {
-    if (req.user ? req.user.verified : false) {
+    if (req.user ? req.user.verified : true) {
         next();
     } else {
         res.redirect('/verify');
