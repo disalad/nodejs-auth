@@ -1,19 +1,19 @@
 const nodemailer = require('nodemailer');
-const keys = require('../config/keys');
+require('dotenv').config();
 
 async function sendEmail(to, verificationUri) {
     let transporter = nodemailer.createTransport({
-        host: keys.nodemailer.host,
-        port: keys.nodemailer.port,
+        host: process.env.NODEMAILER_HOST,
+        port: process.env.NODEMAILER_PORT,
         secure: false,
         auth: {
-            user: keys.nodemailer.email,
-            pass: keys.nodemailer.password,
+            user: process.env.NODEMAILER_EMAIL,
+            pass: process.env.NODEMAILER_PASSWORD,
         },
     });
 
     let info = await transporter.sendMail({
-        from: `"${keys.nodemailer.displayName}" <${keys.nodemailer.email}>`,
+        from: `"${process.env.NODEMAILER_DISPLAYNAME}" <${process.env.NODEMAILER_EMAIL}>`,
         to: to,
         subject: 'node-passport-auth Email Verification',
         html: `<p><a href=${verificationUri}>Click here</a> to verify your account</p>`,

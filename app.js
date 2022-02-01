@@ -4,10 +4,6 @@ const AuthRouter = require('./routes/auth.routes');
 const ProfileRouter = require('./routes/profile.routes');
 const VerifyRouter = require('./routes/verify.routes');
 const mongoose = require('mongoose');
-const {
-    mongodb: { dbUri },
-    session: { cookieKey },
-} = require('./config/keys');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const path = require('path');
@@ -15,9 +11,10 @@ const flash = require('express-flash');
 const fileUpload = require('express-fileupload');
 const { anyAuthVerified } = require('./middleware/checkAuth');
 require('./config/passport.setup');
+require('dotenv').config();
 
 // DB connect
-mongoose.connect(dbUri, () => {
+mongoose.connect(process.env.MONGODB_URI, () => {
     console.log('Connected to mongodb');
 });
 
@@ -26,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
     cookieSession({
         maxAge: 24 * 60 * 60 * 1000,
-        keys: [cookieKey],
+        keys: [process.env.COOKIE_SESSION_KEY],
     }),
 );
 app.use(passport.initialize());
