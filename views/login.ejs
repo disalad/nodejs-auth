@@ -25,6 +25,11 @@
                         <%= messages.error %>
                     </div>
                     <% } %>
+                    <% if (messages.success) { %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <%= messages.success %>
+                    </div>
+                    <% } %>
                     <div
                         class="alert alert-danger hidden alert-dismissible fade show"
                         role="alert"

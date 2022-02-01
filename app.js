@@ -13,6 +13,7 @@ const passport = require('passport');
 const path = require('path');
 const flash = require('express-flash');
 const fileUpload = require('express-fileupload');
+const { anyAuthVerified } = require('./middleware/checkAuth');
 require('./config/passport.setup');
 
 // DB connect
@@ -45,7 +46,7 @@ app.use('/js', express.static(path.join(__dirname, 'public/js')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
-app.get('/', (req, res) => {
+app.get('/', anyAuthVerified, (req, res) => {
     res.render('home', { user: req.user });
 });
 

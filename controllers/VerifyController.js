@@ -25,7 +25,9 @@ exports.verify_user = async (req, res, next) => {
         user.verificationToken = undefined;
         user.verified = true;
         await user.save();
-        res.redirect('/');
+        req.logout();
+        req.flash('success', 'Account is now verified. Please log in again');
+        res.redirect('/auth/login');
     } catch (err) {
         console.log(err);
     }

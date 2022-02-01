@@ -29,3 +29,11 @@ exports.notVerified = (req, res, next) => {
         res.redirect('/');
     }
 };
+
+exports.anyAuthVerified = (req, res, next) => {
+    if (req.user ? req.user.verified : false) {
+        next();
+    } else {
+        res.redirect('/verify');
+    }
+};
