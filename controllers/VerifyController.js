@@ -1,3 +1,5 @@
+const User = require('../models/User');
+
 exports.verify_page = (req, res, next) => {
     const hideEmail = function (email) {
         return email.replace(/(.{2})(.*)(?=@)/, function (gp1, gp2, gp3) {
@@ -10,6 +12,21 @@ exports.verify_page = (req, res, next) => {
     res.render('verify', { email: hideEmail(req.user.email) });
 };
 
-exports.verify_user = (req, res, next) => {
-    // router code here
+exports.verify_user = async (req, res, next) => {
+    try {
+        const token = req.params.token;
+        // Prevent verifing others accounts
+        if (!req.user.verificationToken === token) {
+            res.redirect('/verify');
+            return;
+        }
+        // Mark user as a verified user
+        const user = await User.findOne({ verificationToken: token });
+        user.verificationToken = undefined;
+        user.verified = true;
+        await user.save();
+        res.redirect('/');
+    } catch (err) {
+        console.log(err);
+    }
 };
