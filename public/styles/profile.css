@@ -1,5 +1,6 @@
 .card {
     min-width: 20rem;
+    max-width: 22rem;
 }
 
 .image-upload input {
@@ -23,4 +24,10 @@ form {
 
 .hidden {
     display: none !important;
+}
+
+h5,
+h6 {
+    white-space: normal;
+    word-break: break-word;
 }
