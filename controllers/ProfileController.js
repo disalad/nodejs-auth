@@ -55,14 +55,14 @@ exports.update_profile = async (req, res) => {
     }
 };
 
-exports.view_profile = async (req, res) => {
+exports.view_profile = async (req, res, next) => {
     try {
         const username = req.params.username;
         const user = await User.findOne({ username: username });
         if (user) {
             res.render('profile', { guestProfile: user, user: req.user });
         } else {
-            res.redirect('/');
+            next();
         }
     } catch (err) {
         res.send(err.message);

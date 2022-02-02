@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-    <% if (guestProfile) { %>
-        <%- include('partials/header.ejs', {title: guestProfile.username}) %> 
-    <% } else { %>
-        <%- include('partials/header.ejs', {title: user.username}) %> 
-    <% } %>
+    <% if (guestProfile) { %> <%- include('partials/header.ejs', {title: guestProfile.username}) %>
+    <% } else { %> <%- include('partials/header.ejs', {title: user.username}) %> <% } %>
     <link rel="stylesheet" href="/css/profile.css" />
     <body>
         <%- include("partials/nav.ejs"), {user: user} %>
@@ -25,7 +22,9 @@
                         <h6 class="fw-light fst-italic"><%= guestProfile.bio %></h6>
                         <h6><%= guestProfile.email %></h6>
                     </div>
+                    <% if (user && user.email === guestProfile.email) { %>
                     <a href="/profile/edit" class="btn btn-primary mt-3">Edit</a>
+                    <% } %>
                 </div>
             </div>
             <% } else { %>

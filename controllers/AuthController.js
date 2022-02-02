@@ -32,13 +32,14 @@ exports.register_user = async (req, res, next) => {
             console.log(prevUser ? 'Truthy' : 'Falsy');
             throw new Error('User already exists, Please log in');
         } else if (prevUsername) {
-            throw new Error('Username is unavailable');
+            //prettier-ignore
+            throw new Error('Username isn\'t available');
         } else {
             await User.create({
                 email,
                 username,
                 password: hash,
-                verified: true,
+                verified: false,
                 verificationToken: verificationToken,
             });
             await sendEmail(email, `${currentURL}/verify/${verificationToken}`);
