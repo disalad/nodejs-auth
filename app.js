@@ -70,6 +70,10 @@ app.use('/profile', ProfileRouter);
 app.use('/verify', VerifyRouter);
 app.use('/api', ApiRouter);
 
+app.use((req, res) => {
+    res.status(404).render('404.ejs', { user: req.user });
+});
+
 // Server
 app.listen(process.env.PORT || 3000, () => {
     console.log('Express app listening on port 3000');
