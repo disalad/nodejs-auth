@@ -31,8 +31,8 @@ exports.update_profile = async (req, res) => {
     };
 
     try {
-        const prevUsername = await User.findOne({ username: req.body.name });
-        if (prevUsername) {
+        const prevUser = await User.findOne({ username: req.body.name });
+        if (prevUser && !prevUser.email === req.user.email) {
             //prettier-ignore
             throw new Error('Username isn\'t available');
         }
