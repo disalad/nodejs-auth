@@ -3,6 +3,7 @@ const app = express();
 const AuthRouter = require('./routes/auth.routes');
 const ProfileRouter = require('./routes/profile.routes');
 const VerifyRouter = require('./routes/verify.routes');
+const ApiRouter = require('./routes/api.routes');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -20,6 +21,8 @@ mongoose.connect(process.env.MONGODB_URI, () => {
 });
 
 // Middleware
+
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
     cookieSession({
@@ -65,6 +68,7 @@ app.get('/', anyAuthVerified, (req, res) => {
 app.use('/auth', AuthRouter);
 app.use('/profile', ProfileRouter);
 app.use('/verify', VerifyRouter);
+app.use('/api', ApiRouter);
 
 // Server
 app.listen(process.env.PORT || 3000, () => {
