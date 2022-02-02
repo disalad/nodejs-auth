@@ -18,12 +18,12 @@ form.addEventListener('submit', function (ev) {
         usernameInput.value.length < 1 &&
         /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(usernameInput.value)
     ) {
+        alert.textContent = 'Please enter a username';
+        alert.classList.remove('hidden');
+    } else {
         alert.textContent = '';
         alert.classList.add('hidden');
         this.submit();
-    } else {
-        alert.textContent = 'Please enter a username';
-        alert.classList.remove('hidden');
     }
 });
 
