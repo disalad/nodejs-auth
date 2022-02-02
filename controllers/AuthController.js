@@ -13,7 +13,9 @@ exports.delete_acc = async (req, res, next) => {
         await User.findOneAndRemove({ email: req.user.email });
         req.logout();
         next();
-    } catch (err) {}
+    } catch (err) {
+        res.send(err.message);
+    }
 };
 
 exports.register_user = async (req, res, next) => {
@@ -23,16 +25,20 @@ exports.register_user = async (req, res, next) => {
         const password = req.body.password;
         const hash = await bcrypt.hash(password, 10);
         const prevUser = await User.findOne({ email: email });
+        const prevUsername = await User.findOne({ username: username });
         const verificationToken = crypto.randomBytes(20).toString('hex');
         const currentURL = req.protocol + '://' + req.get('host');
         if (prevUser) {
+            console.log(prevUser ? 'Truthy' : 'Falsy');
             throw new Error('User already exists, Please log in');
+        } else if (prevUsername) {
+            throw new Error('Username is unavailable');
         } else {
             await User.create({
                 email,
                 username,
                 password: hash,
-                verified: false,
+                verified: true,
                 verificationToken: verificationToken,
             });
             await sendEmail(email, `${currentURL}/verify/${verificationToken}`);
