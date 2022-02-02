@@ -33,8 +33,7 @@ document.body.addEventListener('keydown', function (e) {
 });
 
 const validateEmail = email => {
-    const emailRegex =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return !emailRegex.test(email);
 };
 
@@ -48,31 +47,15 @@ const validateUsername = username => {
 };
 
 if (usernameInput) {
-    usernameInput.addEventListener('input', async function () {
+    let typingTimer;
+    let doneTypingInterval = 500;
+
+    usernameInput.addEventListener('input', () => {
         formSubmitBtn.disabled = true;
         toggleTooltip([formSubmitBtn.parentElement], 'Please Wait!', 'hover');
-        try {
-            const availability = await fetch('/api/check_username', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: usernameInput.value.trim(),
-                }),
-            });
-            const result = await availability.json();
-            if (!result.available) {
-                throw new Error('Username exists');
-            }
-            console.warn(result);
-            toggleTooltip([formSubmitBtn.parentElement], '', '');
-            formSubmitBtn.disabled = false;
-        } catch (err) {
-            // eslint-disable-next-line quotes
-            toggleTooltip([formSubmitBtn.parentElement], "Username isn't available", 'hover');
-            formSubmitBtn.disabled = true;
+        clearTimeout(typingTimer);
+        if (usernameInput.value.trim()) {
+            typingTimer = setTimeout(doneTyping, doneTypingInterval);
         }
     });
 }
@@ -87,3 +70,43 @@ const toggleTooltip = (el, title, trigger) => {
         });
     });
 };
+
+let aborter = null;
+async function doneTyping() {
+    try {
+        if (aborter) {
+            aborter.abort();
+        }
+        // make our request cancellable
+        aborter = new AbortController();
+        const signal = aborter.signal;
+        const availability = await fetch('/api/check_username', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: usernameInput.value.trim(),
+            }),
+            signal: signal,
+        });
+        const result = await availability.json();
+        aborter = null;
+        if (!result.available) {
+            throw new Error('Username already exists');
+        }
+        // UI Stuff
+        toggleTooltip([formSubmitBtn.parentElement], '', '');
+        alert.textContent = '';
+        alert.classList.add('hidden');
+        formSubmitBtn.disabled = false;
+    } catch (err) {
+        // UI Stuff
+        // prettier-ignore
+        alert.textContent = err.message;
+        alert.classList.remove('hidden');
+        toggleTooltip([formSubmitBtn.parentElement], '', '');
+        formSubmitBtn.disabled = true;
+    }
+}
