@@ -41,6 +41,7 @@ passport.use(
                         email: profile.emails[0].value,
                         imgUrl: profile.photos[0].value,
                         googleId: profile.id,
+                        verified: true,
                     });
                     done(null, newUser);
                 }
