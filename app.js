@@ -11,7 +11,7 @@ const path = require('path');
 const flash = require('express-flash');
 const fileUpload = require('express-fileupload');
 const minifyHTML = require('express-minify-html');
-const { anyAuthVerified } = require('./middleware/checkAuth');
+const { anyAuthVerified, authedWithUsername } = require('./middleware/checkAuth');
 require('./config/passport.setup');
 require('dotenv').config();
 
@@ -61,7 +61,7 @@ app.use('/js', express.static(path.join(__dirname, 'public/js')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
-app.get('/', anyAuthVerified, (req, res) => {
+app.get('/', anyAuthVerified, authedWithUsername, (req, res) => {
     res.render('home', { user: req.user });
 });
 

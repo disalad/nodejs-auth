@@ -37,3 +37,19 @@ exports.anyAuthVerified = (req, res, next) => {
         res.redirect('/verify');
     }
 };
+
+exports.authedNoUsername = (req, res, next) => {
+    if (req.isAuthenticated() && !req.user.username) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+};
+
+exports.authedWithUsername = (req, res, next) => {
+    if (req.isAuthenticated() && req.user.username) {
+        next();
+    } else {
+        res.redirect('/profile/choose-username');
+    }
+};
