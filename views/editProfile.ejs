@@ -9,6 +9,11 @@
                 <div class="py-4 p-2">
                     <form action="/profile/edit" method="POST" enctype="multipart/form-data">
                         <!-- Alert Box -->
+                        <% if (messages.error) { %>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <%= messages.error %>
+                        </div>
+                        <% } %>
                         <div
                             class="alert alert-danger hidden alert-dismissible fade show"
                             role="alert"
@@ -45,7 +50,11 @@
                                 class="form-control"
                             ></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip">
+                            <button name="submitBtn" type="submit" class="btn btn-primary">
+                                Save
+                            </button></span
+                        >
                     </form>
                 </div>
             </div>

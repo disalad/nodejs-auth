@@ -31,6 +31,11 @@ exports.update_profile = async (req, res) => {
     };
 
     try {
+        const prevUsername = await User.findOne({ username: req.body.name });
+        if (prevUsername) {
+            //prettier-ignore
+            throw new Error('Username isn\'t available');
+        }
         const email = req.user.email;
         let fileUrl;
         if (req.files) {
@@ -45,6 +50,7 @@ exports.update_profile = async (req, res) => {
         await User.findOneAndUpdate({ email: email }, updateObj, { upsert: true });
         res.redirect('/profile');
     } catch (err) {
-        res.send(err);
+        req.flash('error', err.message);
+        res.redirect('/profile/edit');
     }
 };
