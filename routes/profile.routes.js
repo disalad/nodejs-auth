@@ -12,4 +12,6 @@ router.get('/edit', authed, verified, (req, res) => {
 
 router.post('/edit', authed, verified, ProfileController.update_profile);
 
+router.get('/:username', ProfileController.view_profile);
+
 module.exports = router;

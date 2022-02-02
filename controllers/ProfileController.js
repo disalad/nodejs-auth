@@ -54,3 +54,17 @@ exports.update_profile = async (req, res) => {
         res.redirect('/profile/edit');
     }
 };
+
+exports.view_profile = async (req, res) => {
+    try {
+        const username = req.params.username;
+        const user = await User.findOne({ username: username });
+        if (user) {
+            res.render('profile', { guestProfile: user, user: req.user });
+        } else {
+            res.redirect('/');
+        }
+    } catch (err) {
+        res.send(err.message);
+    }
+};
