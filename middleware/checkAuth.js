@@ -49,6 +49,8 @@ exports.authedNoUsername = (req, res, next) => {
 exports.authedWithUsername = (req, res, next) => {
     if (req.isAuthenticated() && req.user.username) {
         next();
+    } else if (!req.isAuthenticated()) {
+        next();
     } else {
         res.redirect('/profile/choose-username');
     }

@@ -31,10 +31,12 @@ exports.update_profile = async (req, res) => {
     };
 
     try {
-        const prevUser = await User.findOne({ username: req.body.name });
-        if (prevUser && !prevUser.email === req.user.email) {
+        const prevUser = await User.findOne({
+            username: { $regex: new RegExp(`^${req.body.name}$`), $options: 'i' },
+        });
+        if (prevUser && prevUser.id !== req.user.id) {
             //prettier-ignore
-            throw new Error('Username isn\'t available');
+            throw new Error('Username already exists');
         }
         const email = req.user.email;
         let fileUrl;
@@ -58,7 +60,9 @@ exports.update_profile = async (req, res) => {
 exports.view_profile = async (req, res, next) => {
     try {
         const username = req.params.username;
-        const user = await User.findOne({ username: username });
+        const user = await User.findOne({
+            username: { $regex: new RegExp(`^${username}$`), $options: 'i' },
+        });
         if (user) {
             res.render('profile', { guestProfile: user, user: req.user });
         } else {
@@ -70,19 +74,26 @@ exports.view_profile = async (req, res, next) => {
 };
 
 exports.choose_username = async (req, res, next) => {
-    if (req.user.googleId && !req.user.username) {
-        try {
+    try {
+        const prevUser = await User.findOne({
+            username: { $regex: new RegExp(`^${req.body.name}$`), $options: 'i' },
+        });
+        if (prevUser) {
+            throw new Error('Username already exists');
+        }
+        // Update user details
+        if (req.user.googleId && !req.user.username) {
             await User.findOneAndUpdate(
                 { email: req.user.email },
                 { username: req.body.name },
                 { upsert: true },
             );
             res.redirect(`/profile/${req.body.name}`);
-        } catch (err) {
-            req.flash('error', err.message);
-            res.redirect('/profile/choose-username');
+        } else {
+            next();
         }
-    } else {
-        next();
+    } catch (err) {
+        req.flash('error', err.message);
+        res.redirect('/profile/choose-username');
     }
 };
