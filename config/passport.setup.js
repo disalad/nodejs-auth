@@ -37,7 +37,6 @@ passport.use(
                     done(null, result);
                 } else {
                     const newUser = await User.create({
-                        username: profile.displayName,
                         email: profile.emails[0].value,
                         imgUrl: profile.photos[0].value,
                         googleId: profile.id,

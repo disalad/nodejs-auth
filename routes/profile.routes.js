@@ -13,6 +13,17 @@ router.get('/edit', authed, verified, (req, res) => {
 
 router.post('/edit', authed, verified, ProfileController.update_profile);
 
+router.get('/choose-username', authed, verified, (req, res, next) => {
+    if (req.user.googleId && !req.user.username) {
+        req.user.username = null;
+        res.render('chooseUsername.ejs', { user: req.user });
+    } else {
+        next();
+    }
+});
+
+router.post('/choose-username', authed, verified, ProfileController.choose_username);
+
 router.get('/:username', ProfileController.view_profile);
 
 module.exports = router;

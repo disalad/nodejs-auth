@@ -57,7 +57,7 @@ router.get('/delete', authed, AuthController.delete_acc, (req, res) => {
 });
 
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.redirect('/');
+    res.redirect('/profile/choose-username');
 });
 
 module.exports = router;

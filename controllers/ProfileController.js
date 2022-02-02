@@ -68,3 +68,21 @@ exports.view_profile = async (req, res, next) => {
         res.send(err.message);
     }
 };
+
+exports.choose_username = async (req, res, next) => {
+    if (req.user.googleId && !req.user.username) {
+        try {
+            await User.findOneAndUpdate(
+                { email: req.user.email },
+                { username: req.body.name },
+                { upsert: true },
+            );
+            res.redirect(`/profile/${req.body.name}`);
+        } catch (err) {
+            req.flash('error', err.message);
+            res.redirect('/profile/choose-username');
+        }
+    } else {
+        next();
+    }
+};
