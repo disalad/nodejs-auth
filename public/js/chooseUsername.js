@@ -22,7 +22,7 @@ document.body.addEventListener('keydown', function (e) {
 });
 
 const validateUsername = username => {
-    return username.length < 1;
+    return username.length < 1 && /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username);
 };
 
 if (usernameInput) {

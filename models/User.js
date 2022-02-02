@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         trim: true,
+        match: /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i,
     },
     email: {
         type: String,

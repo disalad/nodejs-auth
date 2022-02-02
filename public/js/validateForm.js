@@ -19,6 +19,9 @@ form.addEventListener('submit', function (ev) {
     } else if (validUsername) {
         alert.textContent = 'Please enter a username';
         alert.classList.remove('hidden');
+    } else if (!/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(usernameInput && usernameInput.value)) {
+        alert.textContent = 'Username should contain only alphanumeric characters';
+        alert.classList.remove('hidden');
     } else {
         alert.textContent = '';
         alert.classList.add('hidden');

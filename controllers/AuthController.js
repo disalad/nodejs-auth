@@ -46,6 +46,14 @@ exports.register_user = async (req, res, next) => {
             next();
         }
     } catch (err) {
+        if (
+            err.message ===
+            'User validation failed: username: Path `username` is invalid (Disala Damsas).'
+        ) {
+            req.flash('error', 'Username validation failed');
+            res.redirect('/auth/signup');
+            return;
+        }
         req.flash('error', err.message);
         res.redirect('/auth/signup');
     }

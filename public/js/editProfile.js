@@ -14,7 +14,10 @@ fileInput.addEventListener('change', function () {
 
 form.addEventListener('submit', function (ev) {
     ev.preventDefault();
-    if (usernameInput.value) {
+    if (
+        usernameInput.value.length < 1 &&
+        /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(usernameInput.value)
+    ) {
         alert.textContent = '';
         alert.classList.add('hidden');
         this.submit();
