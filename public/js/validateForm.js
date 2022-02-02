@@ -3,6 +3,7 @@ const form = document.querySelector('form');
 const emailInput = form.querySelector('#email');
 const passwordInput = form.querySelector('#password');
 const usernameInput = form.querySelector('#name');
+const formSubmitBtn = form.querySelector('button[type="submit"]');
 
 form.addEventListener('submit', function (ev) {
     ev.preventDefault();
@@ -44,4 +45,45 @@ const validatePassword = password => {
 
 const validateUsername = username => {
     return username.length < 1;
+};
+
+if (usernameInput) {
+    usernameInput.addEventListener('input', async function () {
+        formSubmitBtn.disabled = true;
+        toggleTooltip([formSubmitBtn.parentElement], 'Please Wait!', 'hover');
+        try {
+            const availability = await fetch('/api/check_username', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: usernameInput.value.trim(),
+                }),
+            });
+            const result = await availability.json();
+            if (!result.available) {
+                throw new Error('Username exists');
+            }
+            console.warn(result);
+            toggleTooltip([formSubmitBtn.parentElement], '', '');
+            formSubmitBtn.disabled = false;
+        } catch (err) {
+            // eslint-disable-next-line quotes
+            toggleTooltip([formSubmitBtn.parentElement], "Username isn't available", 'hover');
+            formSubmitBtn.disabled = true;
+        }
+    });
+}
+
+const toggleTooltip = (el, title, trigger) => {
+    el.map(function (triggerEl) {
+        // eslint-disable-next-line no-undef
+        return new bootstrap.Tooltip(triggerEl, {
+            container: 'body',
+            trigger,
+            title,
+        });
+    });
 };
