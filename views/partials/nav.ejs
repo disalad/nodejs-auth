@@ -39,7 +39,9 @@
                 </a>
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                    <li>
+                        <a class="dropdown-item" href="/profile/<%= user.username %>">Profile</a>
+                    </li>
                     <li><a class="dropdown-item" href="/auth/logout">Log out</a></li>
                     <li><a class="dropdown-item" href="/auth/delete">Delete my account</a></li>
                 </ul>
@@ -63,6 +65,4 @@
             <% } %>
         </div>
     </div>
-    <!-- Container wrapper -->
 </nav>
-<!-- Navbar -->

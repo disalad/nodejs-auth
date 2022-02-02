@@ -3,7 +3,8 @@ const { authed, verified } = require('../middleware/checkAuth');
 const ProfileController = require('../controllers/ProfileController');
 
 router.get('/', authed, verified, (req, res) => {
-    res.render('profile', { user: req.user, guestProfile: null });
+    // res.render('profile', { user: req.user, guestProfile: null });
+    res.redirect(`/profile/${req.user.username}`);
 });
 
 router.get('/edit', authed, verified, (req, res) => {
