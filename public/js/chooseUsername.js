@@ -5,8 +5,11 @@ const formSubmitBtn = form.querySelector('button[type="submit"]');
 
 form.addEventListener('submit', function (ev) {
     ev.preventDefault();
-    if (validateUsername(usernameInput.value)) {
+    if (!usernameInput.value) {
         alert.textContent = 'Please enter a username';
+        alert.classList.remove('hidden');
+    } else if (validateUsername(usernameInput.value)) {
+        alert.textContent = 'Username should contain only alphanumeric characters';
         alert.classList.remove('hidden');
     } else {
         alert.textContent = '';
@@ -22,7 +25,7 @@ document.body.addEventListener('keydown', function (e) {
 });
 
 const validateUsername = username => {
-    return username.length < 1 && /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username);
+    return !/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username);
 };
 
 if (usernameInput) {

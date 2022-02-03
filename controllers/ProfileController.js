@@ -31,25 +31,28 @@ exports.update_profile = async (req, res) => {
     };
 
     try {
+        const username = req.body.name;
+        const email = req.user.email;
+        const bio = req.body.about;
+        if (!/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username))
+            throw new Error('Username should contain only alphanumeric characters');
         const prevUser = await User.findOne({
-            username: { $regex: new RegExp(`^${req.body.name}$`), $options: 'i' },
+            username: { $regex: new RegExp(`^${username}$`), $options: 'i' },
         });
         if (prevUser && prevUser.id !== req.user.id) {
             //prettier-ignore
             throw new Error('Username already exists');
         }
-        const email = req.user.email;
         let fileUrl;
         if (req.files) {
             fileUrl = await uploadFile(req);
         }
         const updateObj = {
             ...(fileUrl && { imgUrl: fileUrl }),
-            ...(req.body.name && { username: DOMPurify.sanitize(req.body.name) }),
-            ...(req.body.about.length <= 40 &&
-                req.body.about && { bio: DOMPurify.sanitize(req.body.about) }),
+            ...(username && { username: DOMPurify.sanitize(username) }),
+            ...(bio.length <= 40 && bio && { bio: DOMPurify.sanitize(bio) }),
         };
-        await User.findOneAndUpdate({ email: email }, updateObj, { upsert: true });
+        await User.findOneAndUpdate({ email }, updateObj, { upsert: true });
         res.redirect('/profile');
     } catch (err) {
         req.flash('error', err.message);
@@ -75,8 +78,11 @@ exports.view_profile = async (req, res, next) => {
 
 exports.choose_username = async (req, res, next) => {
     try {
+        const username = req.body.name;
+        if (!/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username))
+            throw new Error('Username should contain only alphanumeric characters');
         const prevUser = await User.findOne({
-            username: { $regex: new RegExp(`^${req.body.name}$`), $options: 'i' },
+            username: { $regex: new RegExp(`^${username}$`), $options: 'i' },
         });
         if (prevUser) {
             throw new Error('Username already exists');
@@ -85,10 +91,10 @@ exports.choose_username = async (req, res, next) => {
         if (req.user.googleId && !req.user.username) {
             await User.findOneAndUpdate(
                 { email: req.user.email },
-                { username: req.body.name },
+                { username: username },
                 { upsert: true },
             );
-            res.redirect(`/profile/${req.body.name}`);
+            res.redirect(`/profile/${username}`);
         } else {
             next();
         }

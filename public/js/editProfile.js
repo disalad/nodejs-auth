@@ -14,11 +14,11 @@ fileInput.addEventListener('change', function () {
 
 form.addEventListener('submit', function (ev) {
     ev.preventDefault();
-    if (
-        usernameInput.value.length < 1 &&
-        /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(usernameInput.value)
-    ) {
+    if (!usernameInput.value) {
         alert.textContent = 'Please enter a username';
+        alert.classList.remove('hidden');
+    } else if (validateUsername(usernameInput.value)) {
+        alert.textContent = 'Username should contain only alphanumeric characters';
         alert.classList.remove('hidden');
     } else {
         alert.textContent = '';
@@ -26,6 +26,10 @@ form.addEventListener('submit', function (ev) {
         this.submit();
     }
 });
+
+const validateUsername = username => {
+    return !/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i.test(username);
+};
 
 document.body.addEventListener('keydown', function (e) {
     if (e.keyCode == 13 && (e.metaKey || e.ctrlKey)) {
