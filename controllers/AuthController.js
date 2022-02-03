@@ -25,7 +25,9 @@ exports.register_user = async (req, res, next) => {
         const password = req.body.password;
         const hash = await bcrypt.hash(password, 10);
         const prevUser = await User.findOne({ email: email });
-        const prevUsername = await User.findOne({ username: username });
+        const prevUsername = await User.findOne({
+            username: { $regex: new RegExp(`^${username}$`), $options: 'i' },
+        });
         const verificationToken = crypto.randomBytes(20).toString('hex');
         const currentURL = req.protocol + '://' + req.get('host');
         if (prevUser) {
@@ -33,7 +35,7 @@ exports.register_user = async (req, res, next) => {
             throw new Error('User already exists, Please log in');
         } else if (prevUsername) {
             //prettier-ignore
-            throw new Error('Username isn\'t available');
+            throw new Error('Username already exists');
         } else {
             await User.create({
                 email,
