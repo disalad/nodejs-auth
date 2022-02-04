@@ -3,6 +3,7 @@ const app = express();
 const AuthRouter = require('./routes/auth.routes');
 const ProfileRouter = require('./routes/profile.routes');
 const VerifyRouter = require('./routes/verify.routes');
+const HomeRouter = require('./routes/home.routes');
 const ApiRouter = require('./routes/api.routes');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
@@ -11,7 +12,6 @@ const path = require('path');
 const flash = require('express-flash');
 const fileUpload = require('express-fileupload');
 const minifyHTML = require('express-minify-html');
-const { anyAuthVerified, authedWithUsername } = require('./middleware/checkAuth');
 require('./config/passport.setup');
 require('dotenv').config();
 
@@ -61,10 +61,7 @@ app.use('/js', express.static(path.join(__dirname, 'public/js')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
-app.get('/', anyAuthVerified, authedWithUsername, (req, res) => {
-    res.render('home', { user: req.user });
-});
-
+app.use('/', HomeRouter);
 app.use('/auth', AuthRouter);
 app.use('/profile', ProfileRouter);
 app.use('/verify', VerifyRouter);

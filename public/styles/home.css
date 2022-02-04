@@ -1,0 +1,20 @@
+.user-list {
+    padding-left: 0 !important;
+    list-style-type: none;
+}
+
+.user {
+    border: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+    padding-bottom: 1em;
+    margin-top: 0.5em;
+}
+
+.user:last-child {
+    border-bottom: none !important;
+}
+
+.profile-picture {
+    object-fit: cover;
+    object-position: center;
+}

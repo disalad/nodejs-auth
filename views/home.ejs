@@ -2,8 +2,9 @@
 <html lang="en">
     <%- include('partials/header.ejs', {title: "Home page"}) %>
     <body>
+        <link rel="stylesheet" href="/css/home.css" />
         <%- include("partials/nav.ejs") %>
-        <div class="container">
+        <div class="container mt-4">
             <% if (user) { %>
             <h1 class="display-6">
                 Welcome back to Home,
@@ -14,6 +15,32 @@
             <% } else { %>
             <h1 class="display-6">Home</h1>
             <% } %>
+            <ul class="user-list">
+                <% users.forEach(function(user) { %>
+                <li class="list-group-item d-flex align-items-center user">
+                    <img
+                        src="<%= user.imgUrl %>"
+                        alt=""
+                        width="50"
+                        height="50"
+                        class="rounded-circle me-3 profile-picture"
+                    />
+                    <div class="flex-fill pl-3 pr-3">
+                        <div>
+                            <a
+                                href="<%= `/profile/${user.username}` %>"
+                                class="text-dark font-weight-600"
+                                ><%= user.username %></a
+                            >
+                        </div>
+                        <div class="text-muted fs-13px"><%= user.bio %></div>
+                    </div>
+                </li>
+                <% }); %>
+            </ul>
+            <form action="/api/users" method="get" class="text-center">
+                <button type="submit" class="btn btn-outline-primary">Load More</button>
+            </form>
         </div>
     </body>
 </html>
