@@ -13,15 +13,12 @@ exports.update_profile = async (req, res) => {
             if (req.files.file.mimetype.includes('image') && req.files.file.size <= 204800) {
                 const id = req.user.id.toString();
                 const file = req.files.file;
-                const fileName = DOMPurify.sanitize(file.name);
-                const ext = path.extname(fileName || '').split('.');
-                const ex = ext[ext.length - 1];
-                const pathName = path.join(__dirname + `../../uploads/${id}.${ex}`);
+                const pathName = path.join(__dirname + `../../uploads/${id}`);
                 file.mv(pathName, err => {
                     if (err) {
                         reject(err);
                     } else {
-                        resolve(`/uploads/${id}.${ex}`);
+                        resolve(`/uploads/${id}`);
                     }
                 });
             } else {
