@@ -2,9 +2,14 @@ const User = require('../models/User');
 
 exports.home_page = async (req, res) => {
     try {
-        const skipCount = (req.query.skip || 0) * 5;
-        const users = await User.find({}).skip(skipCount).limit(5);
-        res.render('home', { user: req.user, users: users });
+        const userCount = (req.query.page || 1) * 5;
+        const users = await User.find({}).limit(userCount);
+        const resultsEnd = userCount <= users.length ? false : true;
+        res.render('home', {
+            user: req.user,
+            users: users,
+            endOfResults: resultsEnd,
+        });
     } catch (err) {
         res.send(err.message);
     }

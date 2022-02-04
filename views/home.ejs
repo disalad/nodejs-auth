@@ -39,9 +39,13 @@
                 <% }); %>
             </ul>
             <div class="text-center">
+                <% if (endOfResults) { %>
+                <h6 class="mb-5">End of Results</h6>
+                <% } else { %>
                 <button type="submit" class="btn btn-outline-primary" id="loadUsers">
                     Load More
                 </button>
+                <% } %>
             </div>
         </div>
         <script src="/js/loadUsers.js"></script>

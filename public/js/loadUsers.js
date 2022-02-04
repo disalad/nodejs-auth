@@ -1,19 +1,21 @@
 const loadUsers = document.getElementById('loadUsers');
 
-loadUsers.addEventListener('click', async function (ev) {
-    ev.preventDefault();
-    const currentPage = Number(getQueryParam('page') || 1);
-    const res = await fetch(`/api/users?skip=${currentPage}`);
-    const users = await res.json();
-    console.log(users);
-    changeQueryParam(currentPage + 1);
-    renderUsers(users);
-    if (users.length < 5) {
-        const div = loadUsers.parentElement;
-        loadUsers.remove();
-        div.innerHTML = '<h6 class="mb-5">End of Results</h6>';
-    }
-});
+if (loadUsers) {
+    loadUsers.addEventListener('click', async function (ev) {
+        ev.preventDefault();
+        const currentPage = Number(getQueryParam('page') || 1);
+        const res = await fetch(`/api/users?skip=${currentPage}`);
+        const users = await res.json();
+        console.log(users);
+        changeQueryParam(currentPage + 1);
+        renderUsers(users);
+        if (users.length < 5) {
+            const div = loadUsers.parentElement;
+            loadUsers.remove();
+            div.innerHTML = '<h6 class="mb-5">End of Results</h6>';
+        }
+    });
+}
 
 const changeQueryParam = n => {
     const newurl =
