@@ -18,12 +18,10 @@ exports.verify_user = async (req, res) => {
     try {
         const token = req.params.token;
         // Prevent verifing others accounts
-        if (!req.user.verificationToken === token) {
-            res.redirect('/verify');
-            return;
-        }
+        if (!req.user.verificationToken === token) throw new Error('Error while verifing user account');
         // Mark user as a verified user
         const user = await User.findOne({ verificationToken: token });
+        if (!user) throw new Error('Error while verifing user account');
         user.verificationToken = undefined;
         user.verified = true;
         await user.save();
@@ -31,7 +29,10 @@ exports.verify_user = async (req, res) => {
         req.flash('success', 'Account is now verified. Please log in again');
         res.redirect('/auth/login');
         // eslint-disable-next-line no-empty
-    } catch (err) {}
+    } catch (err) {
+        req.flash('error', err.message);
+        res.redirect('/verify');
+    }
 };
 
 exports.resend_email = async (req, res) => {
@@ -44,6 +45,7 @@ exports.resend_email = async (req, res) => {
         user.verificationToken = newToken;
         await user.save();
         await sendEmail(email, `${currentURL}/verify/${newToken}`);
+        req.flash('success', 'The new verification link has sent to your email');
         res.redirect('/verify');
     } catch (err) {
         req.flash('error', err.message);

@@ -5,6 +5,15 @@
         <div
             class="container-fluid d-flex justify-content-center align-items-center pt-3 flex-column"
         >
+            <% if (messages.error) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= messages.error %>
+            </div>
+            <% } %> <% if (messages.success) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= messages.success %>
+            </div>
+            <% } %>
             <h3>An verification email has sent to your email <%= email %></h3>
             <form action="/verify/resend" method="get" class="mt-3">
                 <div class="form-group">
