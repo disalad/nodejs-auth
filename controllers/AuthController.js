@@ -23,6 +23,7 @@ exports.register_user = async (req, res, next) => {
         const username = DOMPurify.sanitize(req.body.name);
         const email = DOMPurify.sanitize(req.body.email);
         const password = req.body.password;
+        if (!username || !email || !password) throw new Error('Missing credentials');
         const hash = await bcrypt.hash(password, 10);
         const prevUser = await User.findOne({ email: email });
         const prevUsername = await User.findOne({
@@ -31,7 +32,6 @@ exports.register_user = async (req, res, next) => {
         const verificationToken = crypto.randomBytes(20).toString('hex');
         const currentURL = req.protocol + '://' + req.get('host');
         if (prevUser) {
-            console.log(prevUser ? 'Truthy' : 'Falsy');
             throw new Error('User already exists, Please log in');
         } else if (prevUsername) {
             //prettier-ignore
