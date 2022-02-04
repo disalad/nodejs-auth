@@ -20,7 +20,7 @@ exports.home_page = async (req, res, next) => {
             return;
         }
         const users = await User.find({}).limit(userCount);
-        const resultsEnd = userCount <= users.length ? false : true;
+        const resultsEnd = userCount < roundToNearest5(docCount) ? false : true;
         res.render('home', {
             user: req.user,
             users: users,
