@@ -14,3 +14,13 @@ exports.check_username = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.users = async (req, res) => {
+    try {
+        const skipCount = (req.query.skip || 0) * 5;
+        const users = await User.find({}).skip(skipCount).limit(5);
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};

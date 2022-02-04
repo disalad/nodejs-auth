@@ -38,9 +38,12 @@
                 </li>
                 <% }); %>
             </ul>
-            <form action="/api/users" method="get" class="text-center">
-                <button type="submit" class="btn btn-outline-primary">Load More</button>
-            </form>
+            <div class="text-center">
+                <button type="submit" class="btn btn-outline-primary" id="loadUsers">
+                    Load More
+                </button>
+            </div>
         </div>
+        <script src="/js/loadUsers.js"></script>
     </body>
 </html>
