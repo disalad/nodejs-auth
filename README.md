@@ -43,23 +43,20 @@ This is an example of how to list things you need to use the software and how to
     ```env
     GOOGLE_CLIENT_ID = <Google Client ID>
     GOOGLE_CLIENT_SECRET = <Google Client Secret>
+    GOOGLE_REFRESH_TOKEN = <Google Refresh Token>
+    GOOGLE_REDIRECT_URI = <Redirect URI>
 
     MONGODB_URI = <Mongodb Atlas URI>
 
     COOKIE_SESSION_KEY = <Random Strong String>
 
     NODEMAILER_EMAIL = <Your Email>
-    NODEMAILER_PASSWORD = <Your Password>
-    NODEMAILER_HOST = <Email SMTP Host>
-    NODEMAILER_PORT = <Host's Port>
     NODEMAILER_DISPLAYNAME = <Display Name For Your Emails>
 
     PORT = <Port That Starts The App>
     ```
 
-4. Create a folder named `uploads` to store profile pictures.
-
-5. Start app in a development server.
+4. Start the app in a development server.
 
     ```sh
     npm run dev
