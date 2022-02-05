@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
+const moment = require('moment');
 
 exports.verify_page = (req, res) => {
     const hideEmail = function (email) {
@@ -18,17 +19,27 @@ exports.verify_user = async (req, res) => {
     try {
         const token = req.params.token;
         // Prevent verifing others accounts
-        if (!req.user.verificationToken === token) throw new Error('Error while verifing user account');
+        if (!req.user.verificationToken === token)
+            throw new Error('Error while verifing user account');
         // Mark user as a verified user
         const user = await User.findOne({ verificationToken: token });
         if (!user) throw new Error('Error while verifing user account');
-        user.verificationToken = undefined;
-        user.verified = true;
-        await user.save();
-        req.logout();
-        req.flash('success', 'Account is now verified. Please log in again');
-        res.redirect('/auth/login');
-        // eslint-disable-next-line no-empty
+        console.log(user.tokenExpire);
+        const tokenIsBefore = moment(new Date()).isBefore(moment(new Date(user.tokenExpire)));
+        if (tokenIsBefore) {
+            user.verificationToken = undefined;
+            user.tokenExpire = undefined;
+            user.verified = true;
+            await user.save();
+            req.logout();
+            req.flash('success', 'Account is now verified. Please log in again');
+            res.redirect('/auth/login');
+        } else {
+            user.verificationToken = undefined;
+            user.tokenExpire = undefined;
+            await user.save();
+            throw new Error('The token has expired. Please request a new verification token');
+        }
     } catch (err) {
         req.flash('error', err.message);
         res.redirect('/verify');

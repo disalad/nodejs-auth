@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const createDOMPurify = require('dompurify');
 const { JSDOM } = require('jsdom');
 const crypto = require('crypto');
+const moment = require('moment');
 const sendEmail = require('../utils/sendEmail');
 
 const window = new JSDOM('').window;
@@ -43,6 +44,7 @@ exports.register_user = async (req, res, next) => {
                 password: hash,
                 verified: false,
                 verificationToken: verificationToken,
+                tokenExpire: moment(new Date()).add(1, 'hours'),
             });
             await sendEmail(email, `${currentURL}/verify/${verificationToken}`);
             next();

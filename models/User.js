@@ -32,6 +32,9 @@ const UserSchema = new mongoose.Schema({
     verificationToken: {
         type: String,
     },
+    tokenExpire: {
+        type: Date,
+    },
 });
 
 const User = mongoose.model('User', UserSchema);
