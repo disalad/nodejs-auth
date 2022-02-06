@@ -4,65 +4,42 @@
     <div class="container">
         <!-- Navbar brand -->
         <a class="navbar-brand" href="/">node-passport-auth</a>
-        <!-- Toggle button -->
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-mdb-toggle="collapse"
-            data-mdb-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
-            <img
-                src="https://res.cloudinary.com/df1unjmwz/image/upload/v1643374872/bars-solid_xohqw6.svg"
-                alt="bars"
-            />
-        </button>
-
-        <!-- Collapsible wrapper -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <% if (user) { %>
-            <!-- Dropdown -->
-            <div class="dropdown ms-auto mb-2 mb-lg-0">
-                <a
-                    class="nav-link dropdown-toggle"
-                    href="/"
-                    role="button"
-                    id="dropdownMenuLink"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style="color: unset"
-                >
-                    <img src="<%= user.imgUrl %>" alt="profile picture" class="profile-pic" />
-                    <%= user.username %>
-                </a>
-                <!-- Dropdown menu -->
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li>
-                        <a class="dropdown-item" href="/profile/<%= user.username %>">Profile</a>
-                    </li>
-                    <li><a class="dropdown-item" href="/auth/logout">Log out</a></li>
-                    <li><a class="dropdown-item" href="/auth/delete">Delete my account</a></li>
-                </ul>
-            </div>
-            <% } else { %>
-            <!-- Signup buttons -->
-            <ul class="navbar-nav d-flex flex-row me-1 ms-auto mb-2 mb-lg-0">
+        <% if (user) { %>
+        <!-- Dropdown -->
+        <div class="dropdown ms-auto mb-lg-0">
+            <a
+                class="nav-link dropdown-toggle"
+                href="/"
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="color: unset"
+            >
+                <img src="<%= user.imgUrl %>" alt="profile picture" class="profile-pic" />
+                <%= user.username %>
+            </a>
+            <!-- Dropdown menu -->
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li>
-                    <a href="/auth/login" type="button" class="btn login-btn">Login</a>
+                    <a class="dropdown-item" href="/profile/<%= user.username %>">Profile</a>
                 </li>
-                <li style="margin-left: 1em">
-                    <a
-                        href="/auth/signup"
-                        type="button"
-                        class="btn btn-outline-secondary rounded-pill"
-                    >
-                        Sign Up</a
-                    >
-                </li>
+                <li><a class="dropdown-item" href="/auth/logout">Log out</a></li>
+                <li><a class="dropdown-item" href="/auth/delete">Delete my account</a></li>
             </ul>
-            <% } %>
         </div>
+        <% } else { %>
+        <!-- Signup buttons -->
+        <ul class="navbar-nav d-flex flex-row me-1 ms-auto mb-2 mb-lg-0">
+            <li>
+                <a href="/auth/login" type="button" class="btn login-btn">Login</a>
+            </li>
+            <li style="margin-left: 1em">
+                <a href="/auth/signup" type="button" class="btn btn-outline-secondary rounded-pill">
+                    Sign Up</a
+                >
+            </li>
+        </ul>
+        <% } %>
     </div>
 </nav>
