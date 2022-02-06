@@ -12,6 +12,7 @@ const path = require('path');
 const flash = require('express-flash');
 const fileUpload = require('express-fileupload');
 const minifyHTML = require('express-minify-html');
+const cookieParser = require('cookie-parser');
 require('./config/passport.setup');
 require('dotenv').config();
 
@@ -21,7 +22,7 @@ mongoose.connect(process.env.MONGODB_URI, () => {
 });
 
 // Middleware
-
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -71,6 +72,18 @@ app.use((req, res) => {
     res.status(404).render('404.ejs', { user: req.user });
 });
 
+// Error Handler
+app.use(function (err, req, res, next) {
+    if (!err) return next();
+    if (err.code === 'EBADCSRFTOKEN') {
+        res.status(403).send('invalid csrf token.');
+        return;
+    }
+    // Error page
+    res.status(500).render('500', {
+        error: err.stack,
+    });
+});
 // Server
 app.listen(process.env.PORT || 3000, () => {
     console.log('Express app listening on port 3000');
