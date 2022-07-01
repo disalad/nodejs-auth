@@ -1,4 +1,4 @@
-# Authentication App With Node.js and Passport.js
+# Authentication With Node.js and Passport.js
 
 <!-- ABOUT THE PROJECT -->
 
@@ -29,7 +29,7 @@ This is an example of how to list things you need to use the software and how to
 1. Clone the repo
 
     ```sh
-    git clone https://github.com/disaladamsas/node-passport-auth.git
+    git clone https://github.com/disalad/nodejs-auth.git
     ```
 
 2. Install 3rd party packages.
@@ -72,6 +72,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Disala - damsasdisala@gmail.com
-
-Project Link - [https://github.com/disaladamsas/node-passport-auth](https://github.com/disaladamsas/node-passport-auth)
+Project Link - [https://github.com/disalad/nodejs-auth](https://github.com/disalad/nodejs-auth)
